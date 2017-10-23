@@ -52,8 +52,6 @@
                                       <!-- <button id="login_lost_btn" type="button" class="btn btn-link">Lost Password?</button> -->
                 <button id="login_register_btn" type="button" class="btn btn-link" style="float: right;">Register</button>
                 </div>
-
-
         </form>
 
       </div>
@@ -61,9 +59,60 @@
 
     <div class="col-lg-4"></div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <script type="text/javascript">
+
+
+
+        $(document).ready(function(){
+
+          $("#login_register_btn").click(function(){
+
+            $.ajax({
+              type: 'GET',
+              url: '/register',
+              success: function(data){
+                //do something with the data via front-end framework
+                location.reload();
+              }
+            });
+
+            return false;
+          });
+
+
+          // $("#login_register_btn").click(function(){
+          //
+          //
+          //
+          //
+          // //  alert("1");
+          //
+          //   $.ajax({
+          //     type: 'POST',
+          //     url: '/register',
+          //     data: 'register',
+          //     success: function(data){
+          //       //do something with the data via front-end framework
+          //     //  location.reload();
+          //     }
+          //   });
+          //
+          //   return false;
+          // });
+
+
+
+
+        });
+
+    </script>
+
+
+
+
 
 </body>
-
-
-
-</div>
+</html>

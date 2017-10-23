@@ -46,22 +46,22 @@
                 </div>
 
                 <div class="form-group">
-                  <input type="text" class="form-control" id="emial" placeholder="Email" name="Email" required>
+                  <input type="text" class="form-control" id="email" placeholder="Email" name="Email" required>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
 
                   <input type="text" class="form-control"  id="otp" placeholder="Enter OTP" name="otp" required>
 
-                </div>
+                </div> -->
 
                 <div>
-                <button type="submit" class="btn btn-primary form-control">sign up</button>
+                <button type="submit" id="register" class="btn btn-primary form-control">sign up</button>
                 </div>
 
-                  <div>
+                  <!-- <div>
                  <button type="button"  id="generateotp" class="btn btn-link">Generate OTP</button>
-                   <div>
+                   <div> -->
                 <!-- <div>
                                        <button id="login_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
                 <button id="login_register_btn" type="button" class="btn btn-link" style="float: right;">Register</button>
@@ -92,22 +92,25 @@
 
     $(document).ready(function(){
 
-    $("#generateotp").click(function(){
+    $("#register").click(function(){
 
 
 
+      var username = $('#username').val();
+      var password = $('#password').val();
       var email = $('#email').val();
-      var obj = {email: email};
+      var obj = {username:username,password:password,email: email};
 
     //  alert("1");
 
       $.ajax({
         type: 'POST',
-        url: '/generateotp',
-        data: todo,
+        url: '/register_user_database',
+        data: obj,
         success: function(data){
           //do something with the data via front-end framework
           //location.reload();
+          console.log("saved ");
         }
       });
 
