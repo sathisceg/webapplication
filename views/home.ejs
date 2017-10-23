@@ -32,20 +32,79 @@
       <h3>Home</h3>
 
       <div class="row" style="padding-bottom: 10%;">
-        <button type="button" class="btn btn-primary btn-lg">Share Ride</button>
+        <button type="button" id="share_ride" class="btn btn-primary btn-lg">Share Ride</button>
       </div>
         <div class="row" style="padding-bottom: 10%;">
-      <button type="button" class="btn btn-primary btn-lg">Offer Ride</button>
+      <button type="button" id="search_ride"  class="btn btn-primary btn-lg">Search Ride</button>
         </div>
           <div class="row" style="padding-bottom: 10%;">
 
-      <button type="button" class="btn btn-primary btn-lg">Past Rides</button>
+      <button type="button" id="past_rides" class="btn btn-primary btn-lg">Past Rides</button>
         </div>
 
 
       </div>
   </div>
     <div class="col-lg-4"></div>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <script type="text/javascript">
+
+
+
+        $(document).ready(function(){
+
+          $("#share_ride").click(function(){
+
+            $.ajax({
+              type: 'GET',
+              url: '/shareridehtml',
+              success: function(data){
+                //do something with the data via front-end framework
+                //location.reload();
+                //renderHtml(data);
+
+                window.location.pathname="/shareride"
+              }
+            });
+
+            return false;
+          });
+
+
+          // $("#login_register_btn").click(function(){
+          //
+          //
+          //
+          //
+          // //  alert("1");
+          //
+          //   $.ajax({
+          //     type: 'POST',
+          //     url: '/register',
+          //     data: 'register',
+          //     success: function(data){
+          //       //do something with the data via front-end framework
+          //     //  location.reload();
+          //     }
+          //   });
+          //
+          //   return false;
+          // });
+
+
+
+
+        });
+
+    </script>
+
+
 
 
 </body>

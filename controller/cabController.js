@@ -48,10 +48,22 @@ app.get('/login',function(req,res){
 app.get('/register',function(req,res,next){
 
   //  res.end("register page");
-
     console.log("register");
 
+    //var data = [{item:'get milk'},{item:'get water'},{item:'get biscuit'}];
+
+    //res.render('register',{todos:data});
+    //return res.redirect('/register');
+
     res.render('register');
+});
+
+app.get('/shareridehtml',function(req,res,next){
+
+  //  res.end("register page");
+    console.log("shareridehtml");
+    res.render('shareride');
+    //return res.redirect('/register');
 });
 
 
