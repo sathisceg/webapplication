@@ -27,8 +27,33 @@ const RegisterUserSchema = new Schema({
 
 });
 
-
 const RegisterUser = mongoose.model('registerusercollections',RegisterUserSchema);
+//////////////////////////////////////////////////////////////////////////////////
+
+
+const ConfirmedUserSchema = new Schema({
+    name: String,
+    email: String
+});
+
+const RequestedUserSchema = new Schema({
+    name: String,
+    email: String
+});
+
+const SharedUserSchema = new Schema({
+    name: String,
+    email: String,
+    source:String,
+    destination:String,
+    dateandtime:String,
+    confirmeduser: [ConfirmedUserSchema],
+    requesteduser: [RequestedUserSchema],
+});
+
+const SharedUser = mongoose.model('sharedusercollections', SharedUserSchema);
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,45 +83,10 @@ app.get('/register',function(req,res,next){
     res.render('register');
 });
 
-app.get('/shareridehtml',function(req,res,next){
-
-  //  res.end("register page");
-    console.log("shareridehtml");
-    res.render('shareride');
-    //return res.redirect('/register');
-});
-
-
-
-app.post('/register_user_database',urlencodedParser,function(req,res){
-
-
-      console.log("register_user_database");
-      console.log(req.body);
-
-
-      const user = new RegisterUser({
-        username:req.body.username,
-        password:req.body.password,
-        email:req.body.email
-      });
-
-      user.save().then(function(){
-            console.log("file inserted to database");
-      });
 
 
 
 
-
-      // mongoose.connection.collections.registerusercollections.drop(function(){
-      //     console.log("collection deleted from database");
-      // });
-
-
-
-
-});
 
 // app.post('/register',urlencodedParser,function(req,res){
 //
@@ -142,6 +132,86 @@ app.get('/searchride',function(req,res){
 
 
 });
+
+app.post('/register_user_database',urlencodedParser,function(req,res){
+
+
+      console.log("register_user_database");
+      console.log(req.body);
+
+      const user = new RegisterUser({
+        username:req.body.username,
+        password:req.body.password,
+        email:req.body.email
+      });
+
+      user.save().then(function(){
+            console.log("file inserted to register_user_database");
+      });
+
+
+});
+
+
+
+app.post('/share_ride_database',urlencodedParser,function(req,res){
+
+      console.log("share_ride_database");
+      console.log(req.body);
+      const shareduser = new SharedUser({
+        name:'sachin',
+        email:'asdf@gmail.com',
+        source:req.body.source,
+        destination:req.body.destination,
+        dateandtime:req.body.dateandtime,
+        confirmeduser: [],
+        requesteduser: [],
+      });
+
+      shareduser.save().then(function(){
+            console.log("file inserted to share_ride_database");
+      });
+
+});
+
+
+app.post('/search_ride_database',urlencodedParser,function(req,res){
+
+      console.log("search_ride_database");
+      console.log(req.body);
+
+      // const shareduser = new SharedUser({
+      //   name:'sachin',
+      //   email:'asdf@gmail.com',
+      //   source:req.body.source,
+      //   destination:req.body.destination,
+      //   dateandtime:req.body.dateandtime,
+      //   confirmeduser: [],
+      //   requesteduser: [],
+      // });
+      //
+      // shareduser.save().then(function(){
+      //       console.log("file inserted to share_ride_database");
+      // });
+
+
+      var data = [{item:'get milk'},{item:'get water'},{item:'get biscuit'}];
+
+
+      SharedUser.find().then(function (result) {
+              res.json(result);
+      });
+
+
+});
+
+
+
+
+
+
+
+
 
 
 
