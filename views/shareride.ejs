@@ -15,6 +15,23 @@
 
     <style>
 
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 120%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+
 
     </style>
 </head>
@@ -28,10 +45,9 @@
 
 
 <div class="container">
-  <div class="col-lg-4"></div>
-
-
   <div class="col-lg-4">
+
+
     <div class="jumbotron text-center" style="margin-top: 40%;">
       <h3>Share Ride</h3>
         <form>
@@ -59,16 +75,42 @@
             </div>
 
 
-            <div class="row" style="padding-bottom: 10%;">
+         <div class="row" style="padding-bottom: 10%;padding-right: 10%;">
 
-              <button type="button" id="share_ride" class="btn btn-primary btn-md">Share</button>
+              <button type="button" id="share_ride" class="btn btn-primary btn-md" style="float: left;margin-left: 6%;">Share</button>
+              <button type="button" id="request_ride" class="btn btn-primary btn-md" style="float: right;margin-right: -5%;">request</button>
           </div>
 
 
         </form>
 
       </div>
+
+
+
   </div>
+
+
+  <div class="col-lg-4" id="requestlist" style="margin-top: 12%;margin-left: 5%;">
+
+      <table id="requesttable">
+
+         <thead>
+        <tr>
+            <th>Request User</th>
+            <th>Email</th>
+            <th>Confirm</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+
+
+
+  </table>
+
+
+    </div>
 
     <div class="col-lg-4"></div>
 
@@ -89,11 +131,9 @@
 
           $('#datetimepicker6').datetimepicker();
 
-
+            var request_data;
 
           $("#share_ride").click(function(){
-
-
 
             var source = $('#source').val();
             var destination = $('#destination').val();
@@ -117,6 +157,86 @@
 
           });
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          $("#request_ride").click(function(){
+
+            var email="asdf@gmail.com";
+
+            var obj={email:email};
+
+            $.ajax({
+              type: 'POST',
+              url: '/check_for_ride_request',
+              data: obj,
+              success: function(data){
+                //do something with the data via front-end framework
+                //location.reload();
+
+                console.log(data);
+                console.log("inside request_ride");
+                request_data=data;
+
+
+                var temp_user=data[0].requesteduser;
+
+                for(var i = 0 ;i<temp_user.length;i++){
+
+                  if(temp_user[i]!=null)
+                  {
+                    var name = temp_user[i].name;
+                    var email = temp_user[i].email;
+                  //  var temp = "<tr><td>"+title+"</td><td>"+ingredients+"</td>"+"<td><img src=+"image+"></img></td>"+"</tr>"
+                    tData="<tr><td>"+name+"</td><td>"+email+"</td><td> <button id=\"request\" type=\"button\" class=\"btn btn-link\">OK</button></td></tr>"
+                    //var tData = "<tr><td>"+title+"</td><td>"+ingredients+"</td></tr>"
+                    $("#requesttable").append(tData);
+                  }
+                }
+
+
+
+
+                $('#requesttable').find('tr').click( function(){
+
+                  //alert('You clicked row '+ ($(this).index()+1) );
+
+                  var i= $(this).index()
+
+                  alert(i);
+
+                  var ownername="asdf@gmail.com";
+                  var requestername=temp_user[5].email;
+                  var source=request_data[0].source;
+                  var destination=request_data[0].destination;
+
+
+                  var obj = {ownername:ownername,requestername:requestername,source:source,destination:destination};
+
+
+                  $.ajax({
+                    type: 'POST',
+                    url: '/update_notification',
+                    data: obj,
+                    success: function(data){
+                      //do something with the data via front-end framework
+                      //location.reload();
+                      console.log("update_notification");
+                    }
+                  });
+                  return false;
+
+
+                });
+
+
+
+
+              }
+            });
+
+            return false;
+
+          });
 
 
 
@@ -124,8 +244,6 @@
 
         });
 
-        </script>
-
-
+</script>
 </body>
 </html>

@@ -12,6 +12,21 @@
 
     <style>
 
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 120%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
 
     </style>
 </head>
@@ -39,13 +54,38 @@
         </div>
           <div class="row" style="padding-bottom: 10%;">
 
-      <button type="button" id="past_rides" class="btn btn-primary btn-lg">Past Rides</button>
+      <button type="button" id="notification" class="btn btn-primary btn-lg">Notification</button>
         </div>
 
 
       </div>
   </div>
-    <div class="col-lg-4"></div>
+    <div class="col-lg-4">
+
+      <div class="col-lg-4" id="notificationlist" style="margin-top: 40%;margin-left: 5%;">
+
+          <table id="notificationtable">
+
+             <thead>
+            <tr>
+                <th>Notification</th>
+
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+
+
+
+      </table>
+
+
+        </div>
+
+
+
+
+    </div>
 
 
 
@@ -77,26 +117,50 @@
           });
 
 
-          // $("#login_register_btn").click(function(){
-          //
-          //
-          //
-          //
-          // //  alert("1");
-          //
-          //   $.ajax({
-          //     type: 'POST',
-          //     url: '/register',
-          //     data: 'register',
-          //     success: function(data){
-          //       //do something with the data via front-end framework
-          //     //  location.reload();
-          //     }
-          //   });
-          //
-          //   return false;
-          // });
+          $("#notification").click(function(){
 
+            var requestername="chennai@gmail.com";
+
+            var obj={requestername:requestername};
+
+            $.ajax({
+              type: 'POST',
+              url: '/check_notification',
+              data: obj,
+              success: function(data){
+                //do something with the data via front-end framework
+                //location.reload();
+
+                console.log(data);
+
+                var notification_data = data;
+
+
+
+
+
+                for(var i = 0 ;i<notification_data.length;i++){
+
+                  if(notification_data[i]!=null)
+                  {
+                    var ownername = notification_data[i].ownername;
+                    var requestername = notification_data[i].requestername;
+                    var source = notification_data[i].source;
+                    var destination = notification_data[i].destination;
+
+                    var temp = ownername+" accepted your request from "+source+" to "+destination;
+                    tData="<tr><td>"+temp+"</td></tr>"
+                    //var tData = "<tr><td>"+title+"</td><td>"+ingredients+"</td></tr>"
+                    $("#notificationtable").append(tData);
+                  }
+                }
+
+               }
+            });
+
+            return false;
+
+          });
 
 
 

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.css">
 
     <style>
 
@@ -96,17 +97,20 @@ tr:nth-child(even) {
   </div>
 
 
-<div class="col-lg-4" style="margin-top: 6%;margin-left: 3%;">
+<div class="col-lg-4" id="tablelist" style="margin-top: 6%;margin-left: 3%;">
 
     <table id="ridelist">
+
+       <thead>
       <tr>
           <th>Owner</th>
           <th>Source</th>
           <th>Destination</th>
           <th>Request</th>
       </tr>
-
-
+    </thead>
+      <tbody>
+      </tbody>
 
 
 
@@ -133,11 +137,13 @@ tr:nth-child(even) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 
+
+  <script src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+
     <!-- <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script> -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU5hlJZ38czpViAMxzJQeD5RPIyhxWP0c&callback=initMap"
       type="text/javascript"></script>
     <script type="text/javascript">
-
 
 
     $(document).ready(function(){
@@ -147,10 +153,9 @@ tr:nth-child(even) {
       $('#datetimepicker6').datetimepicker();
 
 
+      var response_search;
 
       $("#searchride").click(function(){
-
-
 
         var source = $('#source').val();
         var destination = $('#destination').val();
@@ -179,11 +184,7 @@ tr:nth-child(even) {
            }
          });
 
-
-
         var obj = {source:source,destination:destination,dateandtime: dateandtime};
-
-
 
         $.ajax({
           type: 'POST',
@@ -194,29 +195,61 @@ tr:nth-child(even) {
 
             console.log(data);
 
-            for(var i = 0 ;i<data.length;i++){
+            response_search=data;
 
+            for(var i = 0 ;i<data.length;i++){
                 var owner = data[i].name;
                 var source = data[i].source;
                 var destination = data[i].destination;
 
-
-
               //  var temp = "<tr><td>"+title+"</td><td>"+ingredients+"</td>"+"<td><img src=+"image+"></img></td>"+"</tr>"
 
-              tData="<tr><td>"+owner+"</td><td>"+source+"</td><td>"+destination+"</td><td> <button type=\"button\" class=\"btn btn-link\">send</button></td></tr>"
+              tData="<tr><td>"+owner+"</td><td>"+source+"</td><td>"+destination+"</td><td> <button id=\"send\" type=\"button\" class=\"btn btn-link\">send</button></td></tr>"
                 //var tData = "<tr><td>"+title+"</td><td>"+ingredients+"</td></tr>"
-
                 $("#ridelist").append(tData);
             }
+
+            $('#ridelist').find('tr').click( function(){
+
+              //alert('You clicked row '+ ($(this).index()+1) );
+
+              var i= $(this).index()
+
+              console.log(response_search[i].email);
+
+              var owner_email = response_search[i].email;
+              var user_email = "chennai@gmail.com";
+
+              var obj = {name:"dell",owner_email:owner_email,user_email:user_email};
+
+              response_search[i].requesteduser.push(obj);
+
+              var req_obj = response_search[i];
+
+              $.ajax({
+                type: 'POST',
+                url: '/request_ride_database',
+                data: obj,
+                success: function(data){
+                  //do something with the data via front-end framework
+                  //location.reload();
+                  console.log("saved ");
+                }
+              });
+              return false;
+            });
 
 
           }
         });
 
         return false;
-
+        //end of search ride
       });
+
+
+
+
 
 
 
@@ -226,9 +259,6 @@ tr:nth-child(even) {
     });
 
     </script>
-
-
-
 
 </body>
 </html>

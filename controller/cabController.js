@@ -18,7 +18,7 @@ mongoose.connection.once('open',function(){
 
 
 const Schema = mongoose.Schema;
-
+///////////////////////////////////////////////////////////////////////////////////////
 const RegisterUserSchema = new Schema({
 
   username:String,
@@ -53,13 +53,21 @@ const SharedUserSchema = new Schema({
 
 const SharedUser = mongoose.model('sharedusercollections', SharedUserSchema);
 
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const NotificationSchema = new Schema({
+    requestername: String,
+    ownername: String,
+    source: String,
+    destination: String
+});
+
+
+const NotifyUser = mongoose.model('notificationcollections', NotificationSchema);
 
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = function (app) {
 
 
@@ -132,7 +140,7 @@ app.get('/searchride',function(req,res){
 
 
 });
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.post('/register_user_database',urlencodedParser,function(req,res){
 
 
@@ -153,7 +161,7 @@ app.post('/register_user_database',urlencodedParser,function(req,res){
 });
 
 
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.post('/share_ride_database',urlencodedParser,function(req,res){
 
       console.log("share_ride_database");
@@ -174,29 +182,13 @@ app.post('/share_ride_database',urlencodedParser,function(req,res){
 
 });
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.post('/search_ride_database',urlencodedParser,function(req,res){
 
       console.log("search_ride_database");
       console.log(req.body);
 
-      // const shareduser = new SharedUser({
-      //   name:'sachin',
-      //   email:'asdf@gmail.com',
-      //   source:req.body.source,
-      //   destination:req.body.destination,
-      //   dateandtime:req.body.dateandtime,
-      //   confirmeduser: [],
-      //   requesteduser: [],
-      // });
-      //
-      // shareduser.save().then(function(){
-      //       console.log("file inserted to share_ride_database");
-      // });
-
-
-      var data = [{item:'get milk'},{item:'get water'},{item:'get biscuit'}];
-
+      //var data = [{item:'get milk'},{item:'get water'},{item:'get biscuit'}];
 
       SharedUser.find().then(function (result) {
               res.json(result);
@@ -205,10 +197,94 @@ app.post('/search_ride_database',urlencodedParser,function(req,res){
 
 });
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+app.post('/request_ride_database',urlencodedParser,function(req,res){
+
+      console.log("request_ride_database");
+
+      //to push into requesteduser
+
+      var obj = req.body;
+
+      console.log(obj);
+
+       SharedUser.findOne({email: req.body.owner_email}).then(function(record){
+
+         console.log("inside find one");
+
+         console.log(record);
+
+         record.requesteduser.push({name:obj.name,email:obj.user_email});
+
+          console.log(record);
+
+         console.log(obj);
+
+         record.save().then(function(){
+                   console.log("making update to request user");
+               });
 
 
+      });
+
+});
+///////////////////////////////////////////////////////////////////////////////////////////
+
+app.post('/check_for_ride_request',urlencodedParser,function(req,res){
+
+      console.log("search_ride_database");
+      console.log(req.body);
+      var email=req.body.email;
+      //var data = [{item:'get milk'},{item:'get water'},{item:'get biscuit'}];
+
+      SharedUser.find({email: email}).then(function (result) {
+              res.json(result);
+      });
+});
+////////////////////////////////////////////////////////////////////////////////////////////
 
 
+app.post('/update_notification',urlencodedParser,function(req,res){
+
+      console.log("update_notification");
+
+      console.log(req.body);
+
+      const notifyUser = new NotifyUser({
+        requestername: req.body.requestername,
+        ownername: req.body.ownername,
+        source: req.body.source,
+        destination: req.body.destination,
+      });
+
+      notifyUser.save().then(function(){
+            console.log("Notification updated");
+      });
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post('/check_notification',urlencodedParser,function(req,res){
+
+      console.log("check_notification");
+
+      console.log(req.body);
+
+
+      var requestername=req.body.requestername;
+
+      console.log(requestername);
+      //var data = [{item:'get milk'},{item:'get water'},{item:'get biscuit'}];
+
+      NotifyUser.find({requestername: requestername}).then(function (result) {
+
+          console.log(result);
+
+          console.log("inside check_notification");
+
+              res.json(result);
+      });
+});
 
 
 
