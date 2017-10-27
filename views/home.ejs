@@ -101,9 +101,12 @@ tr:nth-child(even) {
 
           $("#share_ride").click(function(){
 
+
+            alert(localStorage.getItem("login_name"));
+
             $.ajax({
               type: 'GET',
-              url: '/shareridehtml',
+              url: '/shareride',
               success: function(data){
                 //do something with the data via front-end framework
                 //location.reload();
@@ -119,6 +122,27 @@ tr:nth-child(even) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //html navigation
+
+
+              $("#search_ride").click(function(){
+
+
+                $.ajax({
+                  type: 'GET',
+                  url: '/searchride',
+                  success: function(data){
+                    //do something with the data via front-end framework
+                    //location.reload();
+                    //renderHtml(data);
+
+                    window.location.pathname="/searchride"
+                  }
+                });
+
+                return false;
+                });
+
+
 
 
 

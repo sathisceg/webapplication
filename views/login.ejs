@@ -34,7 +34,7 @@
         <form>
                 <div class="form-group">
 
-                <input type="text" class="form-control" placeholder="Username" name="uname" required>
+                <input type="text"  id="login_name" class="form-control" placeholder="Username" name="uname" required>
 
                 </div>
 
@@ -45,7 +45,7 @@
                 </div>
 
                 <div>
-                <button type="submit" class="btn btn-primary form-control">sign in</button>
+                <button id="sign_in" class="btn btn-primary form-control">sign in</button>
                 </div>
 
                 <div>
@@ -63,6 +63,7 @@
 
 
     <script type="text/javascript">
+
 
 
 
@@ -89,6 +90,29 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //html navigation
+
+    $("#sign_in").click(function(){
+
+      alert($("#login_name").val());
+
+      localStorage.setItem("login_name", $("#login_name").val());
+
+
+      $.ajax({
+        type: 'GET',
+        url: '/home',
+        success: function(data){
+          //do something with the data via front-end framework
+          //location.reload();
+          //renderHtml(data);
+
+          window.location.pathname="/home"
+        }
+      });
+
+      return false;
+      });
+
 
 
 
