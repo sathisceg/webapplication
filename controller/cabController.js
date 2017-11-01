@@ -291,7 +291,30 @@ app.post('/check_notification',urlencodedParser,function(req,res){
 });
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//called from login to check presence of username
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post('/check_for_username_login',urlencodedParser,function(req,res){
+
+      console.log("check_for_username_login");
+      console.log(req.body.email);
+
+      //var data = [{item:'get milk'},{item:'get water'},{item:'get biscuit'}];
+
+      RegisterUser.find({email:req.body.email}).then(function (result) {
+
+              res.json(result);
+
+            console.log("checking for username during login");
+          //  console.log(result);
+
+      });
+
+
+});
 
 
 

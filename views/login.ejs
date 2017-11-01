@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
+
+
+
     <style>
 
 
@@ -19,6 +23,29 @@
 
 
 <body>
+
+
+
+
+
+  <div id="myModal" class="modal fade">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">ERROR!!</h4>
+              </div>
+              <div class="modal-body">
+
+                  <p class="text-warning"><small>Username is wrong</small></p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+              </div>
+          </div>
+      </div>
+  </div>
 
 
 
@@ -61,6 +88,9 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
 
@@ -93,20 +123,37 @@
 
     $("#sign_in").click(function(){
 
-      alert($("#login_name").val());
+      //alert($("#login_name").val());
 
       localStorage.setItem("login_name", $("#login_name").val());
 
+      var email=$("#login_name").val();
+
+      var obj = {email:email};
 
       $.ajax({
-        type: 'GET',
-        url: '/home',
+        type: 'POST',
+        url: '/check_for_username_login',
+        data: obj,
         success: function(data){
           //do something with the data via front-end framework
           //location.reload();
           //renderHtml(data);
+          console.log("inside sign in call back");
+          console.log(data);
 
-          window.location.pathname="/home"
+          if(data.length==1)
+          {
+              window.location.pathname="/home"
+          }
+          else
+          {
+            //alert("give proper user name");
+
+            $("#myModal").modal('show');
+          }
+
+
         }
       });
 
