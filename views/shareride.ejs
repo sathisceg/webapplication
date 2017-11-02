@@ -161,9 +161,10 @@ tr:nth-child(even) {
 
           $("#request_ride").click(function(){
 
-            var email="asdf@gmail.com";
+          //  var email="asdf@gmail.com";
 
-            var obj={email:email};
+          var email =  localStorage.getItem("login_name");
+          var obj={email:email};
 
             $.ajax({
               type: 'POST',
@@ -204,7 +205,7 @@ tr:nth-child(even) {
 
                   alert(i);
 
-                  var ownername="asdf@gmail.com";
+                  var ownername=localStorage.getItem("login_name");
                   var requestername=temp_user[5].email;
                   var source=request_data[0].source;
                   var destination=request_data[0].destination;

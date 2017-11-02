@@ -218,9 +218,11 @@ tr:nth-child(even) {
               console.log(response_search[i].email);
 
               var owner_email = response_search[i].email;
-              var user_email = "chennai@gmail.com";
+            //  var user_email = "chennai@gmail.com";
 
-              var obj = {name:"dell",owner_email:owner_email,user_email:user_email};
+              var user_email = localStorage.getItem("login_name");
+
+              var obj = {name:user_email,owner_email:owner_email,user_email:user_email};
 
               response_search[i].requesteduser.push(obj);
 
