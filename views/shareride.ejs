@@ -47,6 +47,7 @@ tr:nth-child(even) {
 <div class="container">
   <div class="col-lg-4">
 
+<button type="button" id="go_to_home" class="btn btn-primary btn-md" style="float: left;margin-left: -24%;margin-top: 20%;">Home</button>
 
     <div class="jumbotron text-center" style="margin-top: 40%;">
       <h3>Share Ride</h3>
@@ -239,6 +240,27 @@ tr:nth-child(even) {
 
           });
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        $("#go_to_home").click(function(){
+
+          $.ajax({
+            type: 'GET',
+            url: '/home',
+            success: function(data){
+              //do something with the data via front-end framework
+              //location.reload();
+              //renderHtml(data);
+
+              window.location.pathname="/home"
+            }
+          });
+
+          return false;
+        });
+
+        
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

@@ -1,6 +1,6 @@
 
 var express = require('express');
-var cabController = require('./controller/cabController')
+var cabController = require('./controller/cabController');
 
 
 var app = express();

@@ -52,6 +52,8 @@ tr:nth-child(even) {
 
   <div class="col-lg-4" style="margin-top: 3%;margin-left: -13%;margin-right: 0%;">
 
+    <button type="button" id="go_to_home" class="btn btn-primary btn-md" style="float: left;margin-left: 0%;margin-top: -3%;">Home</button>
+
     <div class="jumbotron text-center" style="margin-top: 10%;">
       <h3>Search Ride</h3>
         <form>
@@ -249,6 +251,24 @@ tr:nth-child(even) {
         //end of search ride
       });
 
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+$("#go_to_home").click(function(){
+
+  $.ajax({
+    type: 'GET',
+    url: '/home',
+    success: function(data){
+      //do something with the data via front-end framework
+      //location.reload();
+      //renderHtml(data);
+
+      window.location.pathname="/home"
+    }
+  });
+
+  return false;
+});
 
 
 
