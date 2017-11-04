@@ -136,10 +136,13 @@ tr:nth-child(even) {
 
           $("#share_ride").click(function(){
 
+
+            var name = localStorage.getItem("login_name");
+            var email = localStorage.getItem("login_name");
             var source = $('#source').val();
             var destination = $('#destination').val();
             var dateandtime = $('#dateandtime').val();
-            var obj = {source:source,destination:destination,dateandtime: dateandtime};
+            var obj = {name:name,email:email,source:source,destination:destination,dateandtime: dateandtime};
 
           //  alert("1");
 
@@ -207,7 +210,7 @@ tr:nth-child(even) {
                   alert(i);
 
                   var ownername=localStorage.getItem("login_name");
-                  var requestername=temp_user[5].email;
+                  var requestername=temp_user[i].email;
                   var source=request_data[0].source;
                   var destination=request_data[0].destination;
 
@@ -259,7 +262,7 @@ tr:nth-child(even) {
           return false;
         });
 
-        
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

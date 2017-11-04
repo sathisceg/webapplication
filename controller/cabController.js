@@ -170,9 +170,10 @@ app.post('/share_ride_database',urlencodedParser,function(req,res){
 
       console.log("share_ride_database");
       console.log(req.body);
+
       const shareduser = new SharedUser({
-        name:'sachin',
-        email:'asdf@gmail.com',
+        name:req.body.name,
+        email:req.body.email,
         source:req.body.source,
         destination:req.body.destination,
         dateandtime:req.body.dateandtime,
@@ -275,7 +276,11 @@ app.post('/check_notification',urlencodedParser,function(req,res){
       console.log(req.body);
 
 
-      var requestername=req.body.requestername;
+     var requestername=req.body.requestername;
+
+
+      //var requestername = "chennai@gmail.com";
+
 
       console.log(requestername);
       //var data = [{item:'get milk'},{item:'get water'},{item:'get biscuit'}];
@@ -300,6 +305,7 @@ app.post('/check_notification',urlencodedParser,function(req,res){
 app.post('/check_for_username_login',urlencodedParser,function(req,res){
 
       console.log("check_for_username_login");
+
       console.log(req.body.email);
 
       //var data = [{item:'get milk'},{item:'get water'},{item:'get biscuit'}];
