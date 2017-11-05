@@ -380,6 +380,65 @@ app.post('/check_for_username_login',urlencodedParser,function(req,res){
 
 });
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//called to generate otp
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+app.post('/generate_otp',urlencodedParser,function(req,res){
+
+      console.log("generate_otp");
+
+      console.log(req.body.email);
+
+
+
+      var textContent = "Your password for cabsharing 1234";
+
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        secure: false,
+        port: 25,
+        auth: {
+          user: obj.username,
+          pass: obj.password
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
+      });
+
+      var HelperOptions = {
+        from: obj.password,
+        to: req.body.email,
+        subject: 'OTP for Cab sharing',
+        text: textContent
+      };
+
+        transporter.sendMail(HelperOptions, (error, info) => {
+          if (error) {
+            return console.log(error);
+          }
+          console.log("The message was sent!");
+          console.log(info);
+        });
+
+
+
+      ///////////////////////////////////////////////
+
+      result ={"msgSent":"true"};
+
+      res.json(result);
+
+
+
+});
+
 
 
 // app.post('/todo',urlencodedParser,function(req,res){
