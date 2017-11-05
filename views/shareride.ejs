@@ -260,9 +260,10 @@ modal for alert -->
                   var requestername=temp_user[i].email;
                   var source=request_data[0].source;
                   var destination=request_data[0].destination;
+                  var dateandtime=request_data[0].dateandtime;
 
 
-                  var obj = {ownername:ownername,requestername:requestername,source:source,destination:destination};
+                  var obj = {ownername:ownername,requestername:requestername,source:source,destination:destination,dateandtime:dateandtime};
 
 
                   $.ajax({

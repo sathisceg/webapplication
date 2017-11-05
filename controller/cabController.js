@@ -71,7 +71,8 @@ const NotificationSchema = new Schema({
     requestername: String,
     ownername: String,
     source: String,
-    destination: String
+    destination: String,
+    dateandtime:String,
 });
 
 
@@ -236,7 +237,7 @@ app.post('/request_ride_database',urlencodedParser,function(req,res){
 
          record.requesteduser.push({name:obj.name,email:obj.user_email});
 
-          console.log(record);
+        console.log(record);
 
          console.log(obj);
 
@@ -276,6 +277,7 @@ app.post('/update_notification',urlencodedParser,function(req,res){
         ownername: req.body.ownername,
         source: req.body.source,
         destination: req.body.destination,
+        dateandtime:req.body.dateandtime
       });
 
       notifyUser.save().then(function(result){

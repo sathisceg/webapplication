@@ -9,6 +9,8 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.2/fullcalendar.min.css">
+    <link rel="stylesheet" href="https://fullcalendar.io/js/fullcalendar-2.2.5/fullcalendar.css">
 
     <style>
 
@@ -35,9 +37,9 @@ body {
     background-image: url('https://scstylecaster.files.wordpress.com/2014/09/road-trip.png');
 
   // background-image: url('https://ksenvironmental.com.au/wp-content/uploads/2017/04/iStock-482020686.jpg');
-  */
-  background-image: url('https://ksenvironmental.com.au/wp-content/uploads/2017/04/iStock-482020686.jpg');
 
+  background-image: url('https://imghtlak.mmtcdn.com/blog/sites/default/files/road-trip-las-vegas-to-nevada.jpg');
+*/
 }
 
     </style>
@@ -51,7 +53,11 @@ body {
 
 
 <div class="container">
-  <div class="col-lg-4"></div>
+  <div class="col-lg-4">
+
+    <div id='calendar' style="margin-right: 20%;margin-top: 40%;margin-left: -30%;"></div>
+
+  </div>
 
 
   <div class="col-lg-4">
@@ -104,6 +110,11 @@ body {
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.2/fullcalendar.min.js"></script>
+    <script src="https://fullcalendar.io/js/fullcalendar-2.2.5/lib/moment.min.js"></script>
+    <script src="https://fullcalendar.io/js/fullcalendar-2.2.5/fullcalendar.min.js"></script>
 
 
     <script type="text/javascript">
@@ -113,7 +124,6 @@ body {
         $(document).ready(function(){
 
           $("#share_ride").click(function(){
-
 
             //alert(localStorage.getItem("login_name"));
 
@@ -138,7 +148,6 @@ body {
 
 
               $("#search_ride").click(function(){
-
 
                 $.ajax({
                   type: 'GET',
@@ -180,6 +189,8 @@ body {
                 var notification_data = data;
 
 
+                var events_new=[];
+                var event_obj ={};
 
 
 
@@ -196,16 +207,70 @@ body {
                     tData="<tr><td>"+temp+"</td></tr>"
                     //var tData = "<tr><td>"+title+"</td><td>"+ingredients+"</td></tr>"
                     $("#notificationtable").append(tData);
+
+                      var str_title = notification_data[i].source +" to "+notification_data[i].destination;
+
+                      if(data[i].dateandtime)
+                      {
+                        var str_date = data[i].dateandtime;
+
+                        var event_obj = { title:str_title,start:str_date };
+
+                        events_new.push(event_obj);
+                      }
                   }
+
+
+
                 }
+
+                $('#calendar').fullCalendar('addEventSource', events_new);
+
 
                }
             });
 
+////////////////////////////////////////////////////////////////////////////////////
+
+//var events = [{title: 'Happy Hour',start: '2017-11-04'}];
+//   var events = [
+//   {
+//     title: 'All Day Event',
+//     start: '2017-11-01'
+//   },
+//   {
+//     title: 'Long Event',
+//     start: '2017-11-07',
+//
+//   },
+//   {title: 'Happy Hour',start: '2017-11-04'}
+//
+// ];
+
+// $('#calendar').fullCalendar('addEventSource', events);
+
             return false;
-
           });
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+            $('#calendar').fullCalendar({
+
+                  header: {
+                  left: 'prev,next today',
+                  center: 'title',
+                  right: 'month,agendaWeek,agendaDay'
+                  },
+                defaultDate: '2017-11-01',
+                defaultView: 'month',
+
+                editable: true,
+                navLinks: true,
+                editable: true,
+                eventLimit: true,
+
+
+               });
 
 
         });
