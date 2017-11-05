@@ -3,6 +3,18 @@ var mongoose = require('mongoose');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
+///////////////////////////////////////////////////////////////////////////
+
+///node mailer to send mail
+
+var nodemailer = require('nodemailer');
+
+var fs = require('fs');
+var readfile = fs.readFileSync('readme.txt','utf8');
+
+var obj = JSON.parse(readfile);
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 mongoose.connect('mongodb://localhost/mydb',{ useMongoClient: true });
 
@@ -265,7 +277,48 @@ app.post('/update_notification',urlencodedParser,function(req,res){
       });
 
       notifyUser.save().then(function(result){
+
+
             console.log("Notification updated");
+
+
+            //to send notification as mail
+            ///////////////////////////////////////////
+
+            var textContent = req.body.ownername+" accepted your jouney request from "+req.body.source+" to "+req.body.destination;
+
+            var transporter = nodemailer.createTransport({
+              service: 'gmail',
+              secure: false,
+              port: 25,
+              auth: {
+                user: obj.username,
+                pass: obj.password
+              },
+              tls: {
+                rejectUnauthorized: false
+              }
+            });
+
+            var HelperOptions = {
+              from: obj.password,
+              to: req.body.requestername,
+              subject: 'your journey is confirmed',
+              text: textContent
+            };
+
+              transporter.sendMail(HelperOptions, (error, info) => {
+                if (error) {
+                  return console.log(error);
+                }
+                console.log("The message was sent!");
+                console.log(info);
+              });
+
+
+
+            ///////////////////////////////////////////////
+
             res.json(result);
       });
 });
