@@ -181,8 +181,9 @@ app.post('/share_ride_database',urlencodedParser,function(req,res){
         requesteduser: [],
       });
 
-      shareduser.save().then(function(){
+      shareduser.save().then(function(result){
             console.log("file inserted to share_ride_database");
+              res.json(result);
       });
 
 });
@@ -225,8 +226,9 @@ app.post('/request_ride_database',urlencodedParser,function(req,res){
 
          console.log(obj);
 
-         record.save().then(function(){
+         record.save().then(function(result){
                    console.log("making update to request user");
+                   res.json(result);
                });
 
 
@@ -262,8 +264,9 @@ app.post('/update_notification',urlencodedParser,function(req,res){
         destination: req.body.destination,
       });
 
-      notifyUser.save().then(function(){
+      notifyUser.save().then(function(result){
             console.log("Notification updated");
+            res.json(result);
       });
 });
 

@@ -31,7 +31,11 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
-
+body {
+  background-repeat: no-repeat;
+  background-size: 102% 176%;
+  background-image: url('https://scstylecaster.files.wordpress.com/2014/09/road-trip.png');
+}
 
     </style>
 </head>
@@ -39,6 +43,34 @@ tr:nth-child(even) {
 
 
 <body>
+
+
+
+  <div id="myModalShare" class="modal fade">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Success!!</h4>
+              </div>
+              <div class="modal-body">
+
+                  <p id="shareSetText"class="text-warning"><small>Jounery is shared</small></p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+
+<!--
+modal for alert -->
+
+
 
 
 
@@ -153,7 +185,16 @@ tr:nth-child(even) {
               success: function(data){
                 //do something with the data via front-end framework
                 //location.reload();
-                console.log("saved share ride");
+
+                  $("#myModalShare").modal('show');
+
+                  $('#shareSetText').text("Jounery is shared");
+
+                  console.log("saved share ride");
+
+
+
+
               }
             });
 
@@ -207,7 +248,7 @@ tr:nth-child(even) {
 
                   var i= $(this).index()
 
-                  alert(i);
+                //  alert(i);
 
                   var ownername=localStorage.getItem("login_name");
                   var requestername=temp_user[i].email;
@@ -226,6 +267,15 @@ tr:nth-child(even) {
                       //do something with the data via front-end framework
                       //location.reload();
                       console.log("update_notification");
+
+                      console.log(data);
+
+
+                      $("#myModalShare").modal('show');
+
+                      $('#shareSetText').text("Request is confirmed");
+
+
                     }
                   });
                   return false;
