@@ -169,8 +169,10 @@ app.post('/register_user_database',urlencodedParser,function(req,res){
         email:req.body.email
       });
 
-      user.save().then(function(){
+      user.save().then(function(result){
+
             console.log("file inserted to register_user_database");
+            res.json(result);
       });
 
 

@@ -38,11 +38,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">ERROR!!</h4>
+                    <h4 id="registerTitle" class="modal-title">ERROR!!</h4>
                 </div>
                 <div class="modal-body">
 
-                    <p class="text-warning"><small>Specify all fields</small></p>
+                    <p id="registerSetText" class="text-warning"><small>Specify all fields</small></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -157,6 +157,13 @@
         success: function(data){
           //do something with the data via front-end framework
           //location.reload();
+
+          $("#myModalRegister").modal('show');
+
+          $('#registerSetText').text("Register is confirmed");
+          $('#registerTitle').text("Success");
+
+
           console.log("saved ");
         }
       });
